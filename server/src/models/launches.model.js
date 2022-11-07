@@ -109,8 +109,11 @@ async function getLatestFlightNumber() {
     return latestLaunch.flightNumber
 }
 
-async function getAllLaunches() {
-    return await launches.find({}, { '_id': 0, '__v': 0 })
+async function getAllLaunches(skip, limit) {
+    return await launches
+        .find({}, { '_id': 0, '__v': 0 })
+        .skip(skip)
+        .limit(limit)
 }
 
 async function saveLaunch(launch) {
@@ -140,8 +143,6 @@ async function scheduleNewLaunch(launch) {
 
     await saveLaunch(newLaunch)
 }
-
-
 
 async function abortLaunchById(launchId) {
     return await launches.updateOne({
